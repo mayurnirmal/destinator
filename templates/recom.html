@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist Place Recommendation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 40px;
+            display: inline-block;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select, button {
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+        #btn {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        #btn2 {
+            background-color:rgb(55, 255, 0);
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        #link{
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin: 10px;
+            padding: 5px;
+            width: 100%;
+            font-size:1rem;
+            border-radius: 5px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            background: white;
+            width: 300px;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+        .card img {
+            width: 100%;
+            height: 180px;
+            border-radius: 8px;
+        }
+        .card h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .card p {
+            font-size: 14px;
+            color: #666;
+        }
+        .card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .card a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Find Your Best Travel Destination</h2>
+    <form action="/recommend" method="post">
+        <label for="budget">Enter Your Budget (INR):</label>
+        <input style="width:max-content" type="number" id="budget" name="budget" required>
+        <br>
+
+        <label for="place_type">Select Type of Place:</label>
+        <select id="place_type" name="place_type" required>
+            <option value="Adventure Zone">Adventure Zone</option>
+<option value="Amusement & Theme Park">Amusement & Theme Park</option>
+<option value="Aquarium">Aquarium</option>
+<option value="Art Gallery">Art Gallery</option>
+<option value="Beach">Beach</option>
+<option value="Bird Sanctuary">Bird Sanctuary</option>
+<option value="Boating & Cruises">Boating & Cruises</option>
+<option value="Bridge">Bridge</option>
+<option value="Buddhist Temple">Buddhist Temple</option>
+<option value="Cave">Cave</option>
+<option value="Cemetery">Cemetery</option>
+<option value="Church & Cathedral">Church & Cathedral</option>
+<option value="Commercial Street">Commercial Street</option>
+<option value="Cultural Village">Cultural Village</option>
+<option value="Fairs & Festivals">Fairs & Festivals</option>
+<option value="Forts & Palaces">Forts & Palaces</option>
+<option value="Garden & Park">Garden & Park</option>
+<option value="Gurudwara">Gurudwara</option>
+<option value="Hills & Valleys">Hills & Valleys</option>
+<option value="Historical Site">Historical Site</option>
+<option value="Island">Island</option>
+<option value="Lake">Lake</option>
+<option value="Lighthouse">Lighthouse</option>
+<option value="Local Experience">Local Experience</option>
+<option value="Monument">Monument</option>
+<option value="Mosque">Mosque</option>
+<option value="Museum">Museum</option>
+<option value="Nature">Nature</option>
+<option value="Planetarium">Planetarium</option>
+<option value="Religious Pond">Religious Pond</option>
+<option value="Shopping Market">Shopping Market</option>
+<option value="Temple">Temple</option>
+<option value="Tombs & Mausoleums">Tombs & Mausoleums</option>
+<option value="Waterfront">Waterfront</option>
+<option value="Wildlife">Wildlife</option>
+<option value="Zoo">Zoo</option>
+        </select>
+        <br>
+
+        <label for="state">Select Your State:</label>
+        <select id="state" name="state" required>
+            <option value="" disabled selected>Select a State</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+        </select>
+        <br>
+
+        <button id="btn2" type="submit">Find Places</button>
+<button id="btn" onclick="window.location.href='{{ url_for('tourist_places') }}'">Go To Tourist Places</button>
+<button id="btn" onclick="window.location.href='{{ url_for('index') }}'">See What You Like</button>
+<button id="btn" onclick="window.location.href='/'">Home</button>
+    </form>
+
+
+    {% if recommendations %}
+        <h3>Recommended Places</h3>
+        <div class="card-container">
+            {% for place in recommendations %}
+            <div class="card">
+                <img src="{{ place['Image Link'] }}" alt="Place Image">
+                <h3>{{ place['Place Name'] }}</h3>
+                <p><strong>City:</strong> {{ place['city'] }}</p>
+                <p><strong>State:</strong> {{ place['state'] }}</p>
+                <p><strong>Package:</strong> ₹{{ place['Package'] }}</p>
+                <p><strong>Rating:</strong> ⭐{{ place['Rating'] }}</p>
+                <p><strong>Best Time:</strong> {{ place['Best time'] }}</p>
+                <a href="{{ place['Visit Link'] }}" target="_blank">More Info</a>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

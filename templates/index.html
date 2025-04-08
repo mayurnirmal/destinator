@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Recommendations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 40px;
+            display: inline-block;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+        #btn {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        #btn2 {
+            background-color:rgb(55, 255, 0);
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        .suggestions {
+            position: relative;
+        }
+        .autocomplete-suggestions {
+            border: 1px solid #ccc;
+            background: white;
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Travel Recommendations</h1>
+    <form method="POST">
+        <label for="visited_places_names">Visited Places (2-4):</label><br>
+
+        <div class="suggestions">
+            <input type="text" name="visited_places_names" required oninput="fetchSuggestions(this)">
+            <div class="autocomplete-suggestions"></div>
+        </div>
+        <br>
+        <div class="suggestions">
+            <input type="text" name="visited_places_names" required oninput="fetchSuggestions(this)">
+            <div class="autocomplete-suggestions"></div>
+        </div>
+        <br>
+        <div class="suggestions">
+            <input type="text" name="visited_places_names" oninput="fetchSuggestions(this)">
+            <div class="autocomplete-suggestions"></div>
+        </div>
+        <br>
+        <div class="suggestions">
+            <input type="text" name="visited_places_names" oninput="fetchSuggestions(this)">
+            <div class="autocomplete-suggestions"></div>
+        </div>
+        <br>
+
+        <label for="user_input">What are you looking for? (e.g., Beach, Nature):</label><br>
+        <div class="suggestions">
+            <input type="text" name="user_input" required oninput="fetchFixedSuggestions(this)">
+            <div class="autocomplete-suggestions"></div>
+        </div>
+        <br>
+
+        <button id="btn2" type="submit">Get Recommendations</button>
+        <button id="btn" onclick="window.location.href='{{ url_for('tourist_places') }}'">Go To Tourist Places</button>
+        <button id="btn" onclick="window.location.href='{{ url_for('recom') }}'">Recommendation</button>
+        <button id="btn" onclick="window.location.href='/'">Home</button>
+    </form>
+
+    <script>
+        const fixedSuggestions = ['Monument', 'Temple', 'Tombs & Mausoleums', 'Mosque',
+            'Garden & Park', 'Planetarium', 'Forts & Palaces', 'Commercial Street', 'Zoo', 'Museum', 'Art Gallery',
+            'Historical Site', 'Amusement & Theme Park', 'Fairs & Festivals', 'Shopping Market', 'Cultural Village',
+            'Wildlife', 'Adventure Zone', 'Nature', 'Beach', 'Lighthouse', 'Waterfront', 'Boating & Cruises', 'Lake',
+            'Island', 'Bridge', 'Bird Sanctuary', 'Aquarium', 'Local Experience', 'Buddhist Temple', 'Church & Cathedral',
+            'Hills & Valleys', 'Gurudwara', 'Religious Pond', 'Cave', 'Cemetery'];
+
+        async function fetchSuggestions(input) {
+            const query = input.value;
+            const container = input.nextElementSibling;
+            container.innerHTML = "";
+
+            if (query.length < 1) return;
+
+            const response = await fetch(`/suggest?q=${encodeURIComponent(query)}`);
+            const suggestions = await response.json();
+
+            suggestions.forEach(suggestion => {
+                const div = document.createElement("div");
+                div.classList.add("suggestion-item");
+                div.textContent = suggestion;
+                div.onclick = () => {
+                    input.value = suggestion;
+                    container.innerHTML = "";
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function fetchFixedSuggestions(input) {
+            const query = input.value.toLowerCase();
+            const container = input.nextElementSibling;
+            container.innerHTML = "";
+
+            if (query.length < 1) return;
+
+            const matches = fixedSuggestions.filter(item => item.toLowerCase().includes(query));
+            matches.forEach(match => {
+                const div = document.createElement("div");
+                div.classList.add("suggestion-item");
+                div.textContent = match;
+                div.onclick = () => {
+                    input.value = match;
+                    container.innerHTML = "";
+                };
+                container.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>

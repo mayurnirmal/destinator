@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinator</title>
+    <link rel="stylesheet" href="/templates/style.css">
+</head>
+<style>
+    @font-face {
+    font-family: Akash;
+    src: url("/templates/Assets/Font.ttf");
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Akash;
+
+}
+html,body{
+    height: 100%;
+    width: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+a{
+    text-decoration: none;
+    color: #fff;
+}
+#main{
+    width: 100%;
+    min-height: 100vh;
+    /* background-color: red; */
+}
+nav{
+    position: fixed;
+    width: 100%;
+    height: 10vh;
+    /* background-color: aquamarine; */
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    padding: 0vw 2vw;
+    mix-blend-mode: difference;
+    z-index: 9;
+}
+.l-nav{
+    /* background-color: brown; */
+    font-size: 1.4vw;
+    height: 5vh;
+    overflow: hidden; 
+    cursor: pointer;
+    color: #fff;
+}
+.l-nav h1{
+    color: #fff;
+    transition: all cubic-bezier(0.165, 0.84, 0.44, 1)0.5s;
+}
+.l-nav:hover h1:nth-child(1){
+    margin-top: -5vh;
+}
+.r-nav{
+    /* background-color: brown; */
+    font-size: 1vw;
+    height: 4vh;
+    overflow: hidden; 
+    cursor: pointer;
+    color: #fff;
+}
+.r-nav h1{
+    color: #fff;
+    transition: all cubic-bezier(0.165, 0.84, 0.44, 1)0.5s;
+}
+.r-nav:hover h1:nth-child(1){
+    color: #fff;
+    margin-top: -4vh;
+}
+/* ---loader------ */
+#loader {
+    height: 100vh;
+    width: 100%;
+    background-color: var(--sec-color);
+    position: fixed;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* display: none; */
+    z-index: 99;
+}
+
+#yellow {
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-color);
+    position: absolute;
+    z-index: 9;
+
+}
+/* #loader h1{
+    font-size: 4vw;
+    color: transparent;
+    background: linear-gradient(to right,orange,orangered);
+    -webkit-background-clip: text;
+    position: absolute;
+    opacity: 1;
+    animation-name: load;
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-timing-function: linear;
+} */
+#loader h1 {
+    font-size: 6.8vw;
+    font-weight: 200;
+    line-height: 5vw;
+    letter-spacing: -2px;
+    position: relative;
+    z-index: 9;
+    color: transparent;
+    background: linear-gradient(to right,orange,orangered);
+    -webkit-background-clip: text;
+    font-family: pop;
+    /* width: 1vw; */
+}
+
+
+
+
+#loader video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: 8;
+}
+#loader img{
+    position: absolute;
+    width: 100%;
+    object-fit: cover;
+}
+.part1{
+    width: 100%;
+    height: 100vh;
+    /* background-color: black; */
+}
+
+.content-1{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    background-color: black;
+}
+.rotate-div{
+    width: 200%;
+    height: 160vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: black; */
+    /* gap: 1vw; */
+    scale: 1.5;
+
+}
+.row-div{
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    padding: 1vw;
+    /* margin: 1vw; */
+    width: calc(200vw/5);
+    height: 100%;
+    /* background-color: red; */
+}
+.img-div{
+    /* background-color: aqua; */
+    width: 100%;
+    height: calc(100%/4);
+    border-radius: 1vw;
+    overflow: hidden;
+    /* object-fit: cover; */
+}
+.img-div img{
+    width: 100%;
+    object-fit: cover;
+}
+#row-div-1{
+    margin-top: 5%;
+}
+#row-div-2{
+    margin-top: 10%;
+}
+#row-div-3{
+    margin-top: 8%;
+}
+#row-div-4{
+    margin-top: 5%;
+}
+#row-div-5{
+    margin-top: 10%;
+}
+
+.overlay-div{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 5vw;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color:rgba(0, 0, 0, 0); 
+}
+.overlay-div h1{
+    opacity: 0;
+}
+.scroll-down{
+    position: absolute;
+    bottom: 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1vw;
+}
+.scroll-p{
+    width: 7vw;
+    height: 2px;
+    background-color: #ffffff2e;
+}
+.scrolling{
+    width: 0vw;
+    height: 2px;
+    background-color: #fff;
+    /* opacity: 0; */
+}
+
+/* ----------part-2--------- */
+.part2{
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(95, 204, 78);
+    z-index: 9;
+}
+
+.content-2{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.text-area{
+    position: absolute;
+    opacity: .2;
+    left: 5%;
+    width: 100%;
+    font-weight: 800;
+
+}
+
+.text-area-hover{
+    position: absolute;
+    left: 5%;
+    opacity: 1;
+}
+
+.text-area h1, .text-area-hover h1{
+    font-size: 7vw;
+}
+
+.text-area h2, .text-area-hover h2{
+    margin-left: 5vw;
+    font-size: 7vw;
+}
+
+.text-area-hover h1{
+    width: 0%;
+    text-wrap: nowrap;
+    overflow: hidden;
+}
+
+.text-area-hover h2{
+    width: 0%;
+    text-wrap: nowrap;
+    overflow: hidden;
+}
+
+
+
+/* -----part-3---------------- */
+
+.part-3{
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    background-color: #fff;
+}
+
+.top-part-3{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0vw 3vw;
+    position: absolute;
+    top: -15vh;
+    width: 100%;
+    height: 15vh;
+}
+
+.top-part-3 h4{
+    font-size: 1.5vw;
+    opacity: 0.5;
+}
+
+.cta{
+    display: flex;
+    gap: 1vw;
+}
+
+.cta-book{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0);
+    border-radius: 50px;
+    padding: 1.5vw 3vw;
+    cursor: pointer;
+}
+
+.cta-txt{
+    height: 3vh;
+    color: #fff;
+    overflow: hidden;
+}
+
+.cta-txt h2{
+    transition: all cubic-bezier(0.19, 1, 0.22, 1)0.5s;
+}
+
+.cta-book:hover h2:nth-child(1){
+    margin-top: -3vh;
+}
+
+.cta-book-2{
+    background-color: #d1d1d1;
+}
+
+.cta-book-2 .cta-txt{
+    color: #000;
+}
+
+.btm-part-3{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 15vh;
+    background-color: #000;
+}
+
+/* ------------part-4---------- */
+.part-4{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.lft-part-4{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 3vw;
+    width: 50%;
+    height: 100%;
+}
+
+.lft-part-4 h1{
+    font-size: 8vw;
+}
+
+.cir-part-4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 7vw;
+    height: 7vw;
+    background-color: #f4f4f4;
+    border-radius: 50%;
+}
+
+.rght-part-4{
+    display: flex;
+    flex-direction: column;
+    gap: 40vh;
+    width: 50%;
+    height: 200%;
+    margin-top: 25%;
+    padding-left: 8vw;
+}
+
+.content-rght-part-4{
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    opacity: 0;
+}
+
+.content-rght-part-4 h1{
+    font-size: 2.5vw;
+}
+
+.content-rght-part-4 p{
+    font-size: 1.5vw;
+    width: 75%;
+}
+
+/* ----------part-5--------- */
+
+.part-5{
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.part-5 p{
+    font-size: 2vw;
+    font-weight: 600;
+    opacity: 0.5;
+    margin-top: 10vh;
+}
+
+.part-5 .text-area{
+    left: 20%;
+    top: 30%;
+}
+
+.part-5 .text-area-hover{
+    left: 20%;
+    top: 30%;
+}
+.steps{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    /* height: 70vh;     */
+    gap: 2vw;
+    /* background-color: red; */
+}
+
+.part-6{
+    width: 100%;
+    height: 280vh;
+    background-color: #ebebeb;
+}
+
+.part-6 .rounded-div-wrapper-6{
+    position: relative;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    margin-top: 100px;
+}
+
+.part-6 .rounded-div-6{
+    bottom: 0;
+    position: absolute;
+    left: 50%;
+    width: 150%;
+    height: 750%;
+    border-radius: 50%;
+    background-color: #fff;
+    transform: translate(-50%);
+}
+
+.top-brand-part-6{
+    display: flex;
+    align-items: center;
+    margin-top: 5vh;
+    width: 100%;
+    height: 20vh;
+    /* background-color: #000; */
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.lft-top-6{
+    width: 50%;
+    padding-left: 5vw;
+}
+
+.lft-top-6 h1{
+    font-size: 5vw;
+}
+
+.rght-top-6{
+    width: 50%;
+}
+
+.rght-top-6 button{
+    padding: 1.5vw 3vw;
+    background-color: #d1d1d1;
+    border: none;
+    font-size: 1vw;
+    border-radius: 50px;
+}
+
+.btm-brand-part-6{
+    width: 100%;
+    display: flex;
+}
+
+.lft-btm-6{
+    width: 50%;
+}
+
+.rght-btm-6{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5vh;
+    width: 50%;
+    height: 60vh;
+}
+
+.rght-btm-6 h2{
+    font-size: 2vw;
+}
+
+.rght-btm-6 p{
+    font-size: 1.5vw;
+    color: #919191;
+    line-height: 5vh;
+}
+
+
+.part-7{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+}
+
+.our-work-txt{
+    position: absolute;
+    width: 60vw;
+    height: 0vh;
+    z-index: 9;
+}
+
+#our{
+    position: absolute;
+    top: 0;
+    left: 35%;
+    transform: translate(-20%, -50%);
+    color: #fff;
+    font-size: 5vw;
+}
+
+#work{
+    position: absolute;
+    bottom: 0;
+    right: 35%;
+    transform: translate(20%, 50%);
+    color: #fff;
+    font-size: 5vw;
+}
+
+.our-work-txt-div{
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 60vw;
+    height: 0vh;
+    background-color: #fff;
+}
+
+.scroll-work{
+    width: 100%;
+    height: 60vh;
+    background-color: #919191;
+    overflow: hidden;
+}
+
+.scroll-img{
+    width: 100%;
+    margin-top: 0%;
+    transition: all cubic-bezier(0.19, 1, 0.22, 1)1s;
+}
+
+.scroll-img img{
+    width: 100%;
+}
+
+#demo{
+    position: absolute;
+    bottom: -10%;
+    padding: 1.5vw 3vw;
+    background-color: #d1d1d1;
+    font-size: 0.8vw;
+    border: none;
+    border-radius: 50px;
+
+}
+.link{
+    background: white;
+    color: var(--main-color);
+    display: flex;
+    align-items: center;
+    margin: 2vw;
+    padding: 1vw;
+    border-radius: 4px;
+}
+</style>
+<body>
+   
+    
+    <div id="main">
+        <div id="loader">
+            <div id="yellow"></div>
+            <!-- <video autoplay loop muted src="Assets/loader_v.mp4"></video> -->
+            <!-- <img id="img1" src="https://www.holidify.com/images/cmsuploads/compressed/10823809433_be4d8a76a2_b_20190116143119.jpg" alt="">
+            <img id="img2" src="Assets/fc-24.jpg" alt="">
+            <img id="img3" src="Assets/loader-4.jpeg" alt="">
+            <img id="img4" src="Assets/microsoft.jpg" alt="">
+            <img id="img6" src="Assets/Super Mario.png" alt="">
+            <img id="img7" src="Assets/loader_1.jpg" alt="">
+            <img id="img8" src="Assets/gost.jpg" alt="">
+            <img id="img9" src="Assets/loader-2.jpeg" alt="">
+            <img id="img10" src="Assets/loader-3.jpg" alt="">
+            <img id="img11" src="Assets/loader-4.jpeg" alt="">
+            <img id="img12" src="Assets/loader-5.jpg" alt="">
+            <img id="img13" src="Assets/loader-6.jpg" alt="">
+            <img id="img14" src="Assets/loader-7.png" alt=""> -->
+            <h1>
+                <!-- <div>CREATIVE PROFESSIONALS<br><em>DEDICATED</em> TO CULTURAL<br>ADVANCEMENT
+                    THROUGH<br><em>STRATEGY</em> AND <em>DESIGN</em></div> -->
+            <!-- </h1>
+                <h1>BUY</h1>
+                <h1>RENT</h1>
+                <h1>PLAY & ENJOY</h1> -->
+        </div>
+        <nav>
+            <div class="l-nav">
+                <h1><a href="#"></a>Destinator</h1>
+                <h1><a href="#"></a>Destinator</h1>
+            </div>
+            <div class="r-nav">
+                <h1> <a href="{{ url_for('recom') }}">Recommendations</a></h1>
+                <h1> <a href="{{ url_for('recom') }}">Recommendations </a></h1>
+            </div>
+        </nav>
+        
+        <div class="part1">
+            <div class="content-1">
+                <div class="rotate-div">
+                    <div id="row-div-1" class="row-div">
+                        <div class="img-div"></div>
+                    </div>
+                    <div id="row-div-2" class="row-div">
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/5621259188_e74d63cb05_b_20180302140149.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/Delhi_Red_fort_20190312151147.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/Qutub_Minar_in_the_monsoons_20170908115259.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/Humayun-tomb_20170809201316.jpg"
+                                alt="">
+                        </div>
+                    </div>
+                    <div id="row-div-3" class="row-div">
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/attr_wiki_4067_20191212124026.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://media.holidify.com/images/cmsuploads/compressed/jal-mahal-jaipur-rajasthan-1-attr-hero_20250112220034_20250112220101.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/BanglaSahib_20200417130034.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/800px-Jantar_Mantar_New_Delhi_Misra_Yantra_20200415103313.jpg"
+                                alt="">
+                        </div>
+                    </div>
+                    <div id="row-div-4" class="row-div">
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/800px-Jantar_Mantar_New_Delhi_Misra_Yantra_20200415103313.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/Alleppey-houseboats-Kerala_20180321162358.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/Shri_Mahavirji_-_Main_Temple_(4)_20180902120848.jpg"
+                                alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="https://www.holidify.com/images/cmsuploads/compressed/Pragati_Maidan_Hall_6_20201215101451.JPG"
+                                alt="">
+                        </div>
+                    </div>
+                    <div id="row-div-5" class="row-div">
+                        <div class="img-div">
+                            <img src="/Assets/img/9.jpg" alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="/Assets/img/10.jpg" alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="/Assets/img/11.jpg" alt="">
+                        </div>
+                        <div class="img-div">
+                            <img src="/Assets/img/12.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay-div">
+                    <h1>Destinator</h1>
+                    <div class="scroll-down">
+                        <h3>Scroll Down</h3>
+                        <div class="scroll-p">
+                            <div class="scrolling"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="part2">
+            <div class="content-2">
+                <div class="text-area">
+                    <h1>Destination for every</h1> <br>
+                    <h2>Bucket Find Yours.....</h2>
+                </div>
+                <div class="text-area-hover">
+                    <h1>Destination for every </h1> <br>
+                    <h2>Bucket Find Yours.....</h2>
+                </div>
+            </div>
+        </div>
+
+
+
+            <div class="part-3">
+                <div class="top-part-3">
+                    <!-- <h4>Unlock profit with monthly design sprints.</h4> -->
+                    <div class="cta">
+                        <div class="cta-book">
+                            <!-- <div class="cta-txt">
+                                <h2>Book a demo</h2>
+                                <h2>Book a demo</h2>
+                            </div> -->
+                        </div>
+                        <div class="cta-book cta-book-2">
+                            <!-- <div class="cta-txt">
+                                <h2>View Pricing</h2>
+                                <h2>View Pricing</h2>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="btm-part-3">
+                    <img src="./Assets/Images/apple.svg" alt="">
+                    <img src="./Assets/Images/dell.svg" alt="">
+                    <img src="./Assets/Images/hp.svg" alt="">
+                    <img src="./Assets/Images/ibm.svg" alt="">
+                    <img src="./Assets/Images/orbal.svg" alt="">
+                </div>
+        </div>
+        <div class="part-4">
+            <div class="lft-part-4">
+                <h1>Expected Outcomes</h1>
+                <div class="cir-part-4">
+                    <img src="https://assets-global.website-files.com/64b117fb0e09e8ce5768e4fe/64b7d30aa9b24259d10be24d_symbol.svg"
+                        alt="">
+                </div>
+            </div>
+            <div class="rght-part-4">
+                <div class="content-rght-part-4 c-one">
+                    <h1>What is Destinator?</h1>
+                    <p>"Destinator" will be an intelligent travel recommendation platform that helps users explore the best destinations based on their preferences, with an intuitive interface, real-time recommendations, and a seamless user experience.</p>
+                </div>
+                <div class="content-rght-part-4 c-two">
+                    <h1>Find Your Perfect Destination</h1>
+                    <p>Destinator" is your ultimate travel companion, designed to help you discover, explore, and experience the world's best destinations effortlessly. Whether you seek adventure, relaxation, or cultural immersion, Destinator tailors travel recommendations to match your preferences.</p>
+                </div>
+                <div class="content-rght-part-4 c-three">
+                    <h1>Smart Search & Filters</h1>
+                   <p>🌤️Filter by climate, budget, activities, or best time to visit.
+                    🏔️ Choose from categories like Adventure, Nature, History, and more.
+                    📍 Find destinations based on your current location or dream travel spots.</p>
+                </div>
+            </div>
+        </div>
+        <div class="part-5">
+            <p>In summary..</p>
+            <div class="text-area">
+                <h1>🎯 How Destinator</h1> <br>
+                <h2> Works</h2>
+                <!-- <div class="steps">
+
+                    <h3>1️⃣ Enter Your Preferences – Choose budget, type of trip, or activities you love.</h3>
+                    <h3>2️⃣ Get Smart Recommendations – AI suggests the best destinations for you.</h3>
+                    <h3>3️⃣ Explore & Compare – Check details, read reviews, and find nearby attractions.</h3>
+                    <h3>4️⃣ Plan Your Trip – Save your favorites, book accommodations, and get personalized itineraries.</h3>
+                </div> -->
+            </div>
+            <div class="text-area-hover">
+                <h1>🎯 How Destinator</h1> <br>
+                <h2> Works</h2>
+                <div class="steps">
+                    <h3>1️⃣ Enter Your Preferences – Choose budget, type of trip, or activities you love.</h3>
+                    <h3>2️⃣ Get Smart Recommendations – suggests the best destinations for you.</h3>
+                    <h3>3️⃣ Explore & Compare – Check details, read reviews, and find nearby attractions.</h3>
+                    <h3>4️⃣ Plan Your Trip – Save your favorites, book accommodations, and get personalized itineraries.</h3>
+                </div>
+            </div>
+        </div>
+   
+        <div class="part-7">
+            <div class="our-work-txt">
+                <h1 id="our">Your</h1>
+                <h1 id="work">vacc</h1>
+            </div>
+            <div class="our-work-txt-div">
+                <div class="scroll-work">
+                    <div class="scroll-img">
+                        <img src="https://www.holidify.com/images/cmsuploads/compressed/shutterstock_1335666038_20200220103506_20200220103558.jpg" alt="">
+                        <img src="https://www.holidify.com/images/cmsuploads/compressed/1024px-Ramnnagar_Varanasi_Ramlila_20190121100353.jpg" alt="">
+
+                        <img src="https://www.holidify.com/images/cmsuploads/compressed/Ganga_Aarti_at_Varanasi_ghats_20231226101442.jpg" alt="">
+
+                        <img src="https://www.holidify.com/images/cmsuploads/compressed/786px-Mountain-bike-racing_20190130183855.jpg" alt="">
+
+                        <img src="https://www.holidify.com/images/cmsuploads/compressed/Sparrow_Ranthambore_20190116143713.jpg" alt="">
+
+                        <img src="https://www.holidify.com/images/cmsuploads/compressed/woman-3701713_960_720(1)_20190127131508.jpg" alt="">
+                        <img src="https://www.holidify.com/images/cmsuploads/compressed/Untitled_20200104015025.png" alt="">
+
+                    </div>
+                </div>
+            </div><br>
+            <br>
+
+             <!-- <a href="{{ url_for('recom') }}">Go to Recommendations</a> -->
+              <div>
+
+                  <a class="link" href="{{ url_for('tourist_places') }}">Go to Tourist Places</a>
+                  <a class="link" href="{{ url_for('recom') }}">Recommendations</a>
+                  <a class="link" href="{{ url_for('index') }}">See What You Like</a>
+            </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/templates/script.js"></script>
+    <script>
+        // Initialize Lenis
+const lenis = new Lenis();
+
+// Use requestAnimationFrame to continuously update the scroll
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+
+requestAnimationFrame(raf);
+
+gsap.from(".rotate-div",{
+    x:500 ,
+    y:100,
+    duration:3,
+    repeat: -1, yoyo: true
+})
+
+var tl=gsap.timeline({scrollTrigger:{
+    trigger:".part1",
+    start:"50% 50%",
+    end:"150% bottom",
+    scrub:true,
+    // markers:true,    
+    pin:true     
+
+}})
+
+tl.to(".rotate-div",{
+    rotate:-30,
+    scale:0.7
+},'a')
+tl.to("#row-div-1",{
+    marginTop:"-30%",
+    opacity:0
+},'a')
+tl.to("#row-div-2",{
+    marginTop:"-30%",
+    opacity:0
+},'a')
+tl.to("#row-div-3",{
+    marginTop:"-50%"
+},'a')
+tl.to("#row-div-4",{
+    marginTop:"-20%"
+},'a')
+tl.to("#row-div-5",{
+    marginTop:"-35%"
+},'a')
+
+tl.to('.overlay-div',{
+    backgroundColor:"black"
+},'a')
+tl.to('.overlay-div h1',{
+    opacity:1
+},'a')
+tl.to('.scrolling',{
+    width:"7vw"
+},'a')
+
+
+
+// -------text-animation---------
+var tl2 = gsap.timeline({scrollTrigger:{
+    trigger: ".part-2",
+    start:"0% 70%",
+    end:"50% 50%",
+    scrub:true,
+    // markers:true,
+}})
+
+tl2.to(".rounded-div-wrapper",{
+    height:0,
+    marginTop: 0
+})
+
+
+let tl3 = gsap.timeline({
+    scrollTrigger:{
+        trigger: ".content-2",
+        start:"20% 50%",
+        end: "100% 50%",
+        // markers: true,
+        scrub: 1,
+    },  
+});
+tl3.to(".content-2 .text-area-hover h1",{
+    width:"100%",
+})
+tl3.to(".content-2 .text-area-hover h2",{
+    delay: -0.4,
+    width:"100%",
+})
+let tl4 = gsap.timeline({
+    scrollTrigger:{
+        trigger: ".part-4",
+        start:"50% 50%",
+        end: "200% 50%",
+        pin: true,
+        // markers: true,
+        scrub: 1,
+    },  
+});
+tl4.to(".c-one",{
+    marginTop: "-25%",
+    opacity:"1",
+}, 'sct-1')
+tl4.to(".c-two",{
+    opacity:"1",
+}, 'sct-2')
+tl4.to(".c-one",{
+    marginTop: "-100",
+    opacity:"0",
+}, 'sct-2')
+tl4.to(".c-three",{
+    opacity:"1",
+}, 'sct-3')
+tl4.to(".c-two",{
+    opacity:"0",
+}, 'sct-3')
+tl4.to(".c-one",{
+    marginTop:"-180%",
+}, 'sct-3')
+tl4.to(".c-one",{
+    marginTop:"-230%",
+}, 'sct-4')
+tl4.to(".c-three",{
+    opacity:"0",
+}, 'sct-4')
+tl4.to(".cir-part-4",{
+    marginLeft:"100%",
+    rotate: 360
+}, 'sct-4')
+
+
+let tl5 = gsap.timeline({
+    scrollTrigger:{
+        trigger: ".part-5",
+        start:"20% 50%",
+        end: "100% 50%",
+        // markers: true,
+        scrub: 1,
+    },  
+});
+tl5.to(".part-5 .text-area-hover h1",{
+    width:"100%",
+})
+tl5.to(".part-5 .text-area-hover h3",{
+    width:"100%",
+})
+tl5.to(".part-5 .text-area-hover h2",{
+    delay: -0.4,
+    width:"100%",
+})
+tl5.to(".part-5 .text-area-hover h3",{
+    delay: -0.4,
+    width:"100%",
+})
+
+
+let tl6 = gsap.timeline({
+    scrollTrigger:{
+        trigger: ".part-6",
+        start:"0% 70%",
+        end: "15% 50%",
+        // markers: true,
+        scrub: 1,
+    },  
+});
+tl6.to(".rounded-div-wrapper-6",{
+    height:"0%",
+    marginTop: 0,
+})
+
+let tl7 = gsap.timeline({
+    scrollTrigger:{
+        trigger: ".part-7",
+        start:"50% 50%",
+        end: "300% 50%",
+        pin:true,
+        // markers: true,
+        scrub: 1,
+    },  
+});
+tl7.to("#demo",{
+    bottom:"7%",
+})
+tl7.to(".our-work-txt-div",{
+    height:"60vh",
+}, 'height')
+tl7.to(".our-work-txt",{
+    height:"60vh",
+}, 'height')
+tl7.to("#our",{
+    left:"0%",
+}, 'height')
+tl7.to("#work",{
+    right:"0%",
+}, 'height')
+tl7.to(".scroll-img",{
+    marginTop:"-300%",
+})
+
+function loading() {
+    let tl = gsap.timeline();
+    tl.to("#yellow", {
+        top: "-100%",
+        delay: 0.5,
+        duration: 0.5,
+        esae: "expo.out"
+    })
+    // tl.to("#loader video",{
+    //     top:"-100%",
+    //     delay:0.5,
+    //     duration:0.5,
+    //     esae:"expo.out"
+    // })
+    tl.to("#loader #img14", {
+        top: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img13", {
+        left: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img12", {
+        bottom: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img11", {
+        right: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img10", {
+        top: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img9", {
+        left: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img8", {
+        bottom: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img7", {
+        right: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img6", {
+        top: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img5", {
+        left: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img4", {
+        bottom: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img3", {
+        right: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img2", {
+        top: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader #img1", {
+        left: "-100%",
+        opacity: 0,
+        // delay:0.5,
+        duration: 0.1,
+        esae: "expo.out"
+    })
+    tl.to("#loader", {
+        opacity: 0
+    })
+    tl.to("#loader", {
+        display: "none"
+    })
+}
+loading();
+    </script>
+</body>
+
+</html>
