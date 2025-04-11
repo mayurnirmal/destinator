@@ -16,9 +16,7 @@ data["Features"] = (
     data["Predicted_Tag"] + " " + data["Package"].astype(str) + " " + data["Best time"]
 )
 
-# Initialize TF-IDF Vectorizer
-tfidf = TfidfVectorizer()
-tfidf_matrix = tfidf.fit_transform(data["Features"])
+
 
 # Extract unique states and place types
 states = sorted(data['state'].dropna().unique())
@@ -52,53 +50,133 @@ def recommend_places(user_budget, user_type, user_state, data):
     return recommended_places.head(6)
 
 # Content-based recommendation function
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Assuming 'data' is your DataFrame containing place information
+# Initialize TF-IDF Vectorizer (move this to your data preprocessing)
+tfidf = TfidfVectorizer(stop_words='english')
+tfidf_matrix = tfidf.fit_transform(data['Description'].fillna(''))
+
+# Content-based recommendation function (updated)
 def content_based_recommendation(user_input, top_n_per_type=8):
-    user_vector = tfidf.transform([user_input])
-    similarity_scores = cosine_similarity(user_vector, tfidf_matrix)
-    data["Similarity"] = similarity_scores.flatten()
-    filtered_data = data[data["Predicted_Tag"].str.lower() == user_input.lower()]
-    recommendations = filtered_data.nlargest(top_n_per_type, "Similarity")
-    return recommendations.drop(columns=["Similarity"])
+    try:
+        if not user_input or not str(user_input).strip():
+            logger.warning("Empty user input for content-based recommendation")
+            return pd.DataFrame(columns=data.columns)
+            
+        user_vector = tfidf.transform([user_input])
+        similarity_scores = cosine_similarity(user_vector, tfidf_matrix)
+        
+        # Create a copy of the data to avoid SettingWithCopyWarning
+        recommendations = data.copy()
+        recommendations["Similarity"] = similarity_scores.flatten()
+        
+        # Get top recommendations and ensure we have the right columns
+        top_recommendations = recommendations.nlargest(top_n_per_type, "Similarity")
+        return top_recommendations.drop(columns=["Similarity"]).reset_index(drop=True)
+        
+    except Exception as e:
+        logger.error(f"Error in content-based recommendation: {str(e)}")
+        return pd.DataFrame(columns=data.columns)
 
-# Collaborative filtering function
+# Collaborative filtering function (updated)
 def collaborative_filtering(visited_places_names, top_n_per_type=8):
-    visited_data = data[data["Place Name"].isin(visited_places_names)]
-    visited_tags = visited_data["Predicted_Tag"].unique()
-    recommendations = pd.DataFrame()
-    for tag in visited_tags:
-        tag_recommendations = data[data["Predicted_Tag"] == tag].head(top_n_per_type)
-        recommendations = pd.concat([recommendations, tag_recommendations])
-    return recommendations.head(top_n_per_type * len(visited_tags))
+    try:
+        if not visited_places_names:
+            logger.warning("No visited places provided for collaborative filtering")
+            return pd.DataFrame(columns=data.columns)
+            
+        # Filter visited places and get their tags
+        visited_data = data[data["Place Name"].isin(visited_places_names)]
+        if visited_data.empty:
+            logger.warning(f"No matching places found for: {visited_places_names}")
+            return pd.DataFrame(columns=data.columns)
+            
+        visited_tags = visited_data["Predicted_Tag"].unique()
+        recommendations = pd.DataFrame()
+        
+        for tag in visited_tags:
+            tag_recommendations = data[data["Predicted_Tag"] == tag].head(top_n_per_type)
+            recommendations = pd.concat([recommendations, tag_recommendations])
+            
+        return recommendations.reset_index(drop=True)
+        
+    except Exception as e:
+        logger.error(f"Error in collaborative filtering: {str(e)}")
+        return pd.DataFrame(columns=data.columns)
 
-# Hybrid recommendation function
+# Hybrid recommendation function (updated)
 def hybrid_recommendation(user_input=None, visited_places_names=None, total_recommendations=24):
-    recommendations = pd.DataFrame(columns=data.columns)
-    
-    if visited_places_names:
-        # Ensure visited_places_names is a list of strings
-        if isinstance(visited_places_names, list):
-            visited_places_names = [place.strip() for place in visited_places_names if place.strip()]
+    try:
+        # Initialize empty dataframes for each recommendation type
+        cb_recs = pd.DataFrame(columns=data.columns)
+        cf_recs = pd.DataFrame(columns=data.columns)
         
-        # Filter out empty strings and ensure uniqueness
-        visited_places_names = list(set(visited_places_names))
+        # Get content-based recommendations if user input is provided
+        if user_input and str(user_input).strip():
+            cb_recs = content_based_recommendation(user_input, top_n_per_type=total_recommendations)
+            logger.info(f"Content-based recommendations found: {len(cb_recs)}")
         
-        # Get recommendations based on visited places
-        recommendations = collaborative_filtering(visited_places_names, top_n_per_type=total_recommendations // len(visited_places_names))
-    
-    if user_input:
-        # Get recommendations based on user input
-        user_recs = content_based_recommendation(user_input, top_n_per_type=total_recommendations)
-        if isinstance(user_recs, pd.DataFrame):
-            recommendations = pd.concat([recommendations, user_recs], ignore_index=True)
-    
-    # Ensure the final recommendations have the expected columns and drop duplicates
-    expected_columns = ['Place ID', 'Visit Link', 'Place Name', 'Image Link', 'Description',
-                        'Package', 'Rating', 'Best time', 'city', 'state', 'Predicted_Tag']
-    
-    # Drop duplicates based on 'Place ID' or any other unique identifier
-    final_recommendations = recommendations[expected_columns].drop_duplicates(subset=['Place ID']).head(total_recommendations)
-    
-    return final_recommendations
+        # Get collaborative filtering recommendations if visited places are provided
+        if visited_places_names:
+            # Normalize input (handle both string and list inputs)
+            if isinstance(visited_places_names, str):
+                visited_places_names = [visited_places_names]
+                
+            # Clean and deduplicate the input
+            visited_places_names = [str(place).strip() for place in visited_places_names if str(place).strip()]
+            visited_places_names = list(set(visited_places_names))
+            
+            if visited_places_names:
+                cf_recs = collaborative_filtering(
+                    visited_places_names,
+                    top_n_per_type=max(1, total_recommendations//max(1, len(visited_places_names))))
+                logger.info(f"Collaborative filtering recommendations found: {len(cf_recs)}")
+        
+        # Combine recommendations
+        combined = pd.concat([cb_recs, cf_recs], ignore_index=True)
+        
+        # If we have both types, balance them
+        if not cb_recs.empty and not cf_recs.empty:
+            # Take weighted average based on number of recommendations from each
+            cb_count = min(len(cb_recs), total_recommendations // 2)
+            cf_count = min(len(cf_recs), total_recommendations - cb_count)
+            
+            cb_sample = cb_recs.head(cb_count)
+            cf_sample = cf_recs.head(cf_count)
+            combined = pd.concat([cb_sample, cf_sample], ignore_index=True)
+        
+        # Remove duplicates (prioritize content-based recommendations)
+        combined = combined.drop_duplicates(subset=['Place ID'], keep='first')
+        
+        # Final selection
+        final_recommendations = combined.head(total_recommendations)
+        
+        # If still empty, fall back to popular items
+        if final_recommendations.empty:
+            logger.warning("No recommendations found, falling back to popular items")
+            final_recommendations = data.sample(min(len(data), total_recommendations))
+            if 'Similarity' in final_recommendations.columns:
+                final_recommendations = final_recommendations.drop(columns=['Similarity'])
+        
+        # Ensure we have all required columns
+        required_columns = ['Place ID', 'Visit Link', 'Place Name', 'Image Link', 'Description',
+                          'Package', 'Rating', 'Best time', 'city', 'state', 'Predicted_Tag']
+        
+        for col in required_columns:
+            if col not in final_recommendations.columns and col in data.columns:
+                final_recommendations[col] = None  # Fill missing columns with None
+        
+        return final_recommendations[required_columns].reset_index(drop=True)
+        
+    except Exception as e:
+        logger.error(f"Error in hybrid recommendation: {str(e)}")
+        # Fallback to returning popular items if error occurs
+        return data.sample(min(len(data), total_recommendations))[required_columns].reset_index(drop=True)
 
 # ✅ Home page (first page)
 @app.route('/')
@@ -156,6 +234,7 @@ def index():
         
         # Get the user input from the form
         user_input = request.form.get('user_input')
+        
         
         # Call the hybrid_recommendation function
         recommendations = hybrid_recommendation(user_input=user_input, visited_places_names=visited_places_names)
