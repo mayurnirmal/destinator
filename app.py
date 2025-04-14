@@ -191,7 +191,18 @@ def start():
 # ✅ Recommendation input page
 @app.route('/recom')
 def recom():
-    return render_template('recom.html')
+    types = sorted(data['Predicted_Tag'].dropna().unique().tolist())
+    return render_template('recom.html', types=types)
+
+@app.route('/get_states_for_type', methods=['GET'])
+def get_states_for_type():
+    selected_type = request.args.get('type')
+    if selected_type:
+        filtered_states = data[data['Predicted_Tag'] == selected_type]['state'].dropna().unique().tolist()
+        filtered_states.sort()
+        return jsonify(filtered_states)
+    return jsonify([])
+
 
 # ✅ Handle recommendation logic and redirect to cards page
 @app.route('/recommend', methods=['POST'])
