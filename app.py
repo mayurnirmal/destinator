@@ -220,6 +220,16 @@ def recommend():
 def tourist_places():
     return render_template('cards_fil.html', places=data.to_dict(orient='records'), states=states, types=types)
 
+@app.route('/get_types_for_state', methods=['GET'])
+def get_types_for_state():
+    selected_state = request.args.get('state')
+    if selected_state:
+        filtered_types = data[data['state'] == selected_state]['Predicted_Tag'].dropna().unique().tolist()
+        filtered_types.sort()
+        return jsonify(filtered_types)
+    return jsonify(sorted(data['Predicted_Tag'].dropna().unique().tolist()))
+
+
 # ✅ Handle filtering via AJAX
 @app.route('/filter', methods=['POST'])
 def filter_places():

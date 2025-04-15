@@ -110,15 +110,16 @@
         </div>
 
         <!-- Type of Place Dropdown -->
-        <div class="filter">
-            <label>Type of Place:</label>
-            <select id="type">
-                <option value="">All Types</option>
-                {% for type in types %}
-                <option value="{{ type }}">{{ type }}</option>
-                {% endfor %}
-            </select>
-        </div>
+<div class="filter">
+    <label>Type of Place:</label>
+    <select id="type">
+        <option value="">All Types</option>
+        {% for type in types %}
+        <option value="{{ type }}">{{ type }}</option>
+        {% endfor %}
+    </select>
+</div>
+
 
         <button id="btn" onclick="applyFilters()">Apply Filters</button>
     </div>
@@ -146,7 +147,7 @@
         function applyFilters() {
             var state = document.getElementById("state").value;
             var type = document.getElementById("type").value;
-
+    
             $.post('/filter', { state, type }, function(response) {
                 $('#card-container').html(response.map(place => `
                     <div class="card">
@@ -160,7 +161,26 @@
                 `).join(''));
             });
         }
+    
+        // Dynamically update types based on selected state
+        document.getElementById('state').addEventListener('change', function () {
+            const selectedState = this.value;
+            const typeSelect = document.getElementById('type');
+    
+            fetch(`/get_types_for_state?state=${encodeURIComponent(selectedState)}`)
+                .then(response => response.json())
+                .then(types => {
+                    typeSelect.innerHTML = '<option value="">All Types</option>';
+                    types.forEach(type => {
+                        const option = document.createElement('option');
+                        option.value = type;
+                        option.textContent = type;
+                        typeSelect.appendChild(option);
+                    });
+                });
+        });
     </script>
+    
 
 </body>
 </html>
